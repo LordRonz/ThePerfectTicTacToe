@@ -80,7 +80,7 @@ class Board:
 class Game:
     def __init__(self, player, first):
         self.board = Board()
-        self.win = False
+        self.win = None
         self.draw = False
         self.board.render()
         self.playerId = player
@@ -163,7 +163,7 @@ class Game:
         if winner:
             self.board.render()
             print(f"The winner is {winner}")
-            self.win = True
+            self.win = winner
         elif self.board.is_full(self.board.board):
             self.board.render()
             print("It's a draw !")
