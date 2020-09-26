@@ -184,6 +184,11 @@ def play():
     game = Game(player, first)
     while not game.win and not game.draw:
         game.update()
+    
+    if game.win == game.playerId:
+        print("Impossible...")
+    elif game.win == game.aiId:
+        print("Haha loser")
 
     main()
 
