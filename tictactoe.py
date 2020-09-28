@@ -69,11 +69,7 @@ class Board:
 
     @staticmethod
     def get_legal_moves(board):
-        legal_moves = []
-        for i, a in enumerate(board):
-            for j, b in enumerate(a):
-                if not b:
-                    legal_moves.append((i, j))
+        legal_moves = [(i, j) for i, a in enumerate(board) for j, b in enumerate(a) if not b]
         return legal_moves
 
 
