@@ -81,16 +81,16 @@ class Game:
         self.board.render()
         self.playerId = player
         self.aiId = "X" if player == "O" else "O"
-        self.playerTurn = True if first in ["Y", ""] else False
+        self.playerTurn = True if first in {"Y", ""} else False
 
     def get_move(self):
         while 1:
             x = input("What is your move's X co-ordinate?: ").strip()
-            while x not in ["0", "1", "2"]:
+            while x not in {"0", "1", "2"}:
                 print("Invalid co-ordinate")
                 x = input("What is your move's X co-ordinate?: ").strip()
             y = input("What is your move's Y co-ordinate?: ").strip()
-            while y not in ["0", "1", "2"]:
+            while y not in {"0", "1", "2"}:
                 print("Invalid co-ordinate")
                 y = input("What is your move's Y co-ordinate?: ").strip()
 
@@ -127,10 +127,7 @@ class Game:
     def minimax_score(self, board, curr, ai):
         winner = self.board.is_win(board)
         if winner:
-            if winner == ai:
-                return +10
-            else:
-                return -10
+            return +10 if winner == ai else -10
         elif self.board.is_full(board):
             return 0
         legal_moves = self.board.get_legal_moves(board)
@@ -170,11 +167,11 @@ class Game:
 
 def play():
     player = input("Which side are you?(X/O) ").upper().strip()
-    while player not in ["X", "O"]:
+    while player not in {"X", "O"}:
         print("Invalid input !")
         player = input("Which side are you?(X/O) ").upper().strip()
     first = input("Want to play first?(y/n) ").upper().strip()
-    while first not in ("Y", "N", ""):
+    while first not in {"Y", "N", ""}:
         print("Invalid input !")
         first = input("Want to play first?(y/n) ").upper().strip()
     game = Game(player, first)
@@ -192,14 +189,11 @@ def play():
 def main():
     print("<---Welcome to the Perfect TicTacToe--->")
     ans = input("Shall we begin?(y/n) ").upper().strip()
-    while ans not in ("Y", "N", ""):
+    while ans not in {"Y", "N", ""}:
         print("Invalid input !")
         ans = input("Shall we begin?(y/n) ").upper().strip()
 
-    if ans in ("Y", ""):
-        play()
-    else:
-        print("Bye !")
+    play() if ans in {"Y", ""} else print("Bye !")
 
 
 if __name__ == "__main__":
