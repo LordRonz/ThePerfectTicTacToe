@@ -17,8 +17,8 @@ class Board:
                 + (b[2] if b[2] else " ")
                 + "|"
             )
-            rendList.extend([[temp]])
-        rendList.extend([[" -------"]])
+            rendList.append([temp])
+        rendList.append([" -------"])
         for a in rendList:
             for b in a:
                 print(b)
@@ -29,14 +29,14 @@ class Board:
     @staticmethod
     def is_empty(board):
         for _ in board:
-            if "X" in set(_) or "O" in set(_):
+            if "X" in _ or "O" in _:
                 return False
         return True
 
     @staticmethod
     def is_full(board):
         for _ in board:
-            if None in set(_):
+            if None in _:
                 return False
         return True
 
@@ -79,18 +79,18 @@ class Game:
         self.win = None
         self.draw = False
         self.board.render()
-        self.playerId = player
+        self.playerId = player if player != "" else "X"
         self.aiId = "X" if player == "O" else "O"
-        self.playerTurn = True if first in {"Y", ""} else False
+        self.playerTurn = True if first in "Y" else False
 
     def get_move(self):
         while 1:
             x = input("What is your move's X co-ordinate?: ").strip()
-            while x not in {"0", "1", "2"}:
+            while x not in "012":
                 print("Invalid co-ordinate")
                 x = input("What is your move's X co-ordinate?: ").strip()
             y = input("What is your move's Y co-ordinate?: ").strip()
-            while y not in {"0", "1", "2"}:
+            while y not in "012":
                 print("Invalid co-ordinate")
                 y = input("What is your move's Y co-ordinate?: ").strip()
 
@@ -136,7 +136,7 @@ class Game:
             new_board = self.make_move(board, move, curr)
             opponent = self.get_opponent(curr)
             score = self.minimax_score(new_board, opponent, ai)
-            scores.extend([score])
+            scores.append(score)
         return max(scores) if curr == ai else min(scores)
 
     def update(self):
@@ -167,11 +167,11 @@ class Game:
 
 def play():
     player = input("Which side are you?(X/O) ").upper().strip()
-    while player not in {"X", "O"}:
+    while player not in "XO":
         print("Invalid input !")
         player = input("Which side are you?(X/O) ").upper().strip()
     first = input("Want to play first?(y/n) ").upper().strip()
-    while first not in {"Y", "N", ""}:
+    while first not in "YN":
         print("Invalid input !")
         first = input("Want to play first?(y/n) ").upper().strip()
     game = Game(player, first)
@@ -183,17 +183,17 @@ def play():
     elif game.win == game.aiId:
         print("Haha loser")
 
-    main()
+    return main()
 
 
 def main():
     print("<---Welcome to the Perfect TicTacToe--->")
     ans = input("Shall we begin?(y/n) ").upper().strip()
-    while ans not in {"Y", "N", ""}:
+    while ans not in "YN":
         print("Invalid input !")
         ans = input("Shall we begin?(y/n) ").upper().strip()
 
-    play() if ans in {"Y", ""} else print("Bye !")
+    play() if ans in "Y" else print("Bye !")
 
 
 if __name__ == "__main__":
