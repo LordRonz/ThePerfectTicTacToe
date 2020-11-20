@@ -6,6 +6,7 @@ class Board:
 
     def render(self):
         rendList = [["  0 1 2"], [" -------"]]
+        rlapp = rendList.append
         for i, b in enumerate(self.board):
             temp = (
                 str(i)
@@ -17,11 +18,12 @@ class Board:
                 + (b[2] if b[2] else " ")
                 + "|"
             )
-            rendList.append([temp])
-        rendList.append([" -------"])
-        for a in rendList:
-            for b in a:
-                print(b)
+            rlapp([temp])
+        rlapp([" -------"])
+        #for a in rendList:
+        #    for b in a:
+        #        print(b)
+        print("\n".join(["".join(a) for a in rendList]))
 
     def is_coord_empty(self, coord):
         return False if self.board[coord[0]][coord[1]] else True
@@ -69,8 +71,7 @@ class Board:
 
     @staticmethod
     def get_legal_moves(board):
-        legal_moves = [(i, j) for i, a in enumerate(board) for j, b in enumerate(a) if not b]
-        return legal_moves
+        return [(i, j) for i, a in enumerate(board) for j, b in enumerate(a) if not b]
 
 
 class Game:
@@ -96,7 +97,7 @@ class Game:
 
             if self.board.is_coord_empty((int(y), int(x))):
                 break
-            print("Can't make move ({}, {}), square already taken!".format(x, y))
+            print(f"Can't make move ({x}, {y}), square already taken!")
         return (int(y), int(x))
 
     def make_move(self, board, coord, c):
@@ -113,11 +114,14 @@ class Game:
         best_score = None
         if self.board.is_empty(board):
             return random.choice(self.board.get_legal_moves(board))
+        mkmv = self.make_move
+        getop = self.get_opponent
+        mmaxscr = self.minimax_score
         for move in self.board.get_legal_moves(board):
             b = [x[:] for x in board]
-            b = self.make_move(b, move, whoami)
-            opponent = self.get_opponent(whoami)
-            score = self.minimax_score(b, opponent, whoami)
+            b = mkmv(b, move, whoami)
+            opponent = getop(whoami)
+            score = mmaxscr(b, opponent, whoami)
             if best_score is None or score > best_score:
                 best_move = move
                 best_score = score
@@ -132,15 +136,19 @@ class Game:
             return 0
         legal_moves = self.board.get_legal_moves(board)
         scores = []
+        mkmv = self.make_move
+        getop = self.get_opponent
+        mmaxscr = self.minimax_score
+        scapp = scores.append
         for move in legal_moves:
-            new_board = self.make_move(board, move, curr)
-            opponent = self.get_opponent(curr)
-            score = self.minimax_score(new_board, opponent, ai)
-            scores.append(score)
+            new_board = mkmv(board, move, curr)
+            opponent = getop(curr)
+            score = mmaxscr(new_board, opponent, ai)
+            scapp(score)
         return max(scores) if curr == ai else min(scores)
 
     def update(self):
-        print("{}'s turn...".format(self.playerId if self.playerTurn else self.aiId))
+        print(f"{self.playerId if self.playerTurn else self.aiId}'s turn...")
         if self.playerTurn:
             self.board.board = self.make_move(
                 self.board.board, self.get_move(), self.playerId
