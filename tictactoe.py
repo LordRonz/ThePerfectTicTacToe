@@ -30,11 +30,11 @@ class Board:
 
     @staticmethod
     def is_empty(board):
-        return not any("X" in _ or "O" in _ for _ in board)
+        return not any(any(_) for _ in board)
 
     @staticmethod
     def is_full(board):
-        return not any(None in _ for _ in board)
+        return all(all(_) for _ in board)
 
     @staticmethod
     def is_win(board):
