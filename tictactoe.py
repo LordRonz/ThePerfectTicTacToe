@@ -20,13 +20,10 @@ class Board:
             )
             rlapp([temp])
         rlapp([" -------"])
-        #for a in rendList:
-        #    for b in a:
-        #        print(b)
         print("\n".join(["".join(a) for a in rendList]))
 
     def is_coord_empty(self, coord):
-        return False if self.board[coord[0]][coord[1]] else True
+        return not bool(self.board[coord[0]][coord[1]])
 
     @staticmethod
     def is_empty(board):
@@ -76,16 +73,16 @@ class Game:
         self.board.render()
         self.playerId = player if player != "" else "X"
         self.aiId = "X" if player == "O" else "O"
-        self.playerTurn = True if first in "Y" else False
-
+        self.playerTurn = first in "Y"
+        self.coords = ("0", "1", "2")
     def get_move(self):
         while 1:
             x = input("What is your move's X co-ordinate?: ").strip()
-            while x not in "012":
+            while x not in self.coords:
                 print("Invalid co-ordinate")
                 x = input("What is your move's X co-ordinate?: ").strip()
             y = input("What is your move's Y co-ordinate?: ").strip()
-            while y not in "012":
+            while y not in self.coords:
                 print("Invalid co-ordinate")
                 y = input("What is your move's Y co-ordinate?: ").strip()
 
