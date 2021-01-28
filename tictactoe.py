@@ -23,7 +23,7 @@ class Board:
         print("\n".join(["".join(a) for a in rendList]))
 
     def is_coord_empty(self, coord):
-        return not bool(self.board[coord[0]][coord[1]])
+        return not self.board[coord[0]][coord[1]]
 
     @staticmethod
     def is_empty(board):
